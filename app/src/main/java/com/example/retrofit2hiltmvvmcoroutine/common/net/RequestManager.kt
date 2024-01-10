@@ -4,11 +4,15 @@ import android.util.Log
 import com.example.retrofit2hiltmvvmcoroutine.btn01.net.ApiService01
 import com.example.retrofit2hiltmvvmcoroutine.btn02.net.ApiService02
 import com.example.retrofit2hiltmvvmcoroutine.btn03.net.ApiService03
+import com.example.retrofit2hiltmvvmcoroutine.common.net.baseurlfactory.CallFactoryProxy
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.OkHttpClient
+import okhttp3.Request
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -82,6 +86,16 @@ class RequestManager {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(client) // 可以不设置，Retrofit会自动生成一个client
+            .callFactory(object : CallFactoryProxy(client) {
+                override fun getNewUrl(baseUrlName: String?, request: Request?): HttpUrl? {
+                    if (baseUrlName == "baidu") {
+                        val oldUrl = request!!.url.toString()
+                        val newUrl = oldUrl.replace(baseUrl, "https://www.baidu.com/")
+                        return newUrl.toHttpUrl()
+                    }
+                    return null
+                }
+            })
             // 增加返回值为String的支持
             .addConverterFactory(ScalarsConverterFactory.create())
             // 增加返回值为Gson的支持(以实体类返回)

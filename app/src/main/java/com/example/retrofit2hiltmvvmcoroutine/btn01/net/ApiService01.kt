@@ -6,6 +6,7 @@ import retrofit2.Call
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -16,6 +17,13 @@ interface ApiService01 {
 
     @GET("article/list/{pageNum}/json")
     fun getList(@Path("pageNum") pageNum: Int): Call<ResponseData<ListBean>>
+
+    /**
+     * 替换不同的 BaseUrl
+     */
+    // @Headers("BaseUrlName:baidu")
+    // @GET("article/list/{pageNum}/json")
+    // fun getList02(@Path("pageNum") pageNum: Int): Call<ResponseData<ListBean>>
 
     @POST("article/query/0/json")
     @FormUrlEncoded
