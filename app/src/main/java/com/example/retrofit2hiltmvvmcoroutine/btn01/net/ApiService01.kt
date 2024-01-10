@@ -19,7 +19,7 @@ interface ApiService01 {
     fun getList(@Path("pageNum") pageNum: Int): Call<ResponseData<ListBean>>
 
     /**
-     * 替换不同的 BaseUrl
+     * 设置不同的 BaseUrl
      */
     // @Headers("BaseUrlName:baidu")
     // @GET("article/list/{pageNum}/json")

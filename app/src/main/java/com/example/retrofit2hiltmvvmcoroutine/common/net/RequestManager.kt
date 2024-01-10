@@ -86,7 +86,7 @@ class RequestManager {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(client) // 可以不设置，Retrofit会自动生成一个client
-            .callFactory(object : CallFactoryProxy(client) {
+            .callFactory(object : CallFactoryProxy(client) { // 设置不同的 BaseUrl，注意：要写在 .client(client) 后面，不然会被覆盖掉，导致无效
                 override fun getNewUrl(baseUrlName: String?, request: Request?): HttpUrl? {
                     if (baseUrlName == "baidu") {
                         val oldUrl = request!!.url.toString()
